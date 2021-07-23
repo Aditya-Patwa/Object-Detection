@@ -1,6 +1,5 @@
 let img;
 let objDetector;
-// let detections = [];
 
 function preload() {
     objDetector = ml5.objectDetector('cocossd');
@@ -9,18 +8,18 @@ function preload() {
 function getDetection(err, results) {
     if(err) {
         console.log(err);
-    }
-    // detections = results;
-    for(let i = 0; i < results.length; i++) {
-        let object = results[i];
-        stroke(255, 0, 0);
-        strokeWeight(2);
-        noFill();
-        rect(object.x, object.y, object.width, object.height);
-        noStroke();
-        fill(255, 0, 0);
-        textSize(25);
-        text(object.label, object.x + 15, object.y + 30);
+    } else { 
+        for(let i = 0; i<results.length; i++) {
+            let object = results[i];
+            stroke(255, 0, 0);
+            strokeWeight(2);
+            noFill();
+            rect(object.x, object.y, object.width, object.height);
+            noStroke();
+            fill(255, 0, 0);
+            textSize(25);
+            text(object.label, object.x + 15, object.y + 30);
+        }
     }
     objDetector.detect(img, getDetection);
 };
