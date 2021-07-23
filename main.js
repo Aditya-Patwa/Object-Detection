@@ -1,5 +1,5 @@
 let img;
-let objDetector;
+let detector;
 
 function preload() {
     detector = ml5.objectDetector('cocossd', {}, () => console.log("Yay! We load's up the model..."));
@@ -21,7 +21,7 @@ const getDetection = (err, results) => {
             text(object.label, object.x + 15, object.y + 30);
         }
     }
-    objDetector.detect(img, getDetection);
+    detector.detect(img, getDetection);
 };
 
 function setup() {
@@ -29,7 +29,7 @@ function setup() {
     img = createCapture(VIDEO);
     img.size(window.innerWidth, window.innerHeight);
     img.hide();
-    objDetector.detect(img, getDetection);
+    detector.detect(img, getDetection);
 }
 
 function draw() {
