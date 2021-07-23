@@ -1,27 +1,17 @@
 let img;
-let detector;
+let objDetector;
+let detections = [];
 
 function preload() {
-    detector = ml5.objectDetector('cocossd', {}, () => console.log("Yay! We load's up the model..."));
+    objDetector = ml5.objectDetector('cocossd', {}, () => console.log("Yay! We load's up the model..."));
 }
 
 const getDetection = (err, results) => {
     if(err) {
         console.log(err);
-    } else {
-        for(let i = 0; i<results.length; i++) {
-            let object = results[i];
-            stroke(255, 0, 0);
-            strokeWeight(2);
-            noFill();
-            rect(object.x, object.y, object.width, object.height);
-            noStroke();
-            fill(255, 0, 0);
-            textSize(25);
-            text(object.label, object.x + 15, object.y + 30);
-        }
     }
-    detector.detect(img, getDetection);
+    detections = results;
+    objDetector.detect(img, getDetection);
 };
 
 function setup() {
@@ -29,11 +19,22 @@ function setup() {
     img = createCapture(VIDEO);
     img.size(window.innerWidth, window.innerHeight);
     img.hide();
-    detector.detect(img, getDetection);
+    objDetector.detect(img, getDetection);
 }
 
 function draw() {
     image(img, 0, 0, window.innerWidth, window.innerHeight);
+    for(let i = 0; i<detections.length; i++) {
+        let object = detections[i];
+        stroke(255, 0, 0);
+        strokeWeight(2);
+        noFill();
+        rect(object.x, object.y, object.width, object.height);
+        noStroke();
+        fill(255, 0, 0);
+        textSize(25);
+        text(object.label, object.x + 15, object.y + 30);
+    }
 }
 
 document.addEventListener("resize", () => {
