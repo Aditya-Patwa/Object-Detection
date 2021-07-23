@@ -2,7 +2,7 @@ let img;
 let objDetector;
 
 function preload() {
-    objDetector = ml5.objectDetector('cocossd');
+    objDetector = ml5.objectDetector('cocossd', {}, () => console.log("Yay! We load's up the Model..."));
 }
 
 function getDetection(err, results) {
